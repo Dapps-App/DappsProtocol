@@ -1,0 +1,88 @@
+/* tablet */
+@media (max-width:768px) {
+    nav{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .boss{
+        margin-left: 120px !important;
+    }
+    .dapp{
+        font-size: 20px;
+    }
+    .logo{
+        width: 8%;
+        height: 8%;
+    }
+    /* .laptoLink{
+        height: 100px;
+    } */
+    
+}
+
+/* land scape  */
+@media (max-width:576px) {
+    .aboutCon{
+        display: none !important;
+    }
+    .boss{
+        margin-left: 200px !important;
+    }
+    .laptoLink{
+        height: 100px;
+        width: 70%;
+    }
+}
+
+
+/* mobile phone  */
+@media (max-width:430px) {
+    .boss{
+        margin-left: 80px !important;
+    }
+    nav{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .dapp{
+        font-size: 21px;
+    }
+    .btn{
+        font-size: 12px;
+    }
+    .logo{
+        width: 10%;
+        height: 10%;
+    }
+    .laptoLink{
+        width: 70%;
+        height: 100px;
+    }
+    .fScetion{
+        margin-top: 150px;
+    }
+}
+   /* for those usin samsung  */
+@media (max-width:390px) {
+    .boss{
+        margin-left: 40px !important;
+    }
+    nav{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .dapp{
+        font-size: 20px;
+    }
+    .btn{
+        font-size: 12px;
+    }
+    .logo{
+        width: 10%;
+        height: 10%;
+    }
+    .laptoLink{
+        height: 100px;
+        width: 70%;
+    }
+}

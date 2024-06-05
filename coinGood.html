@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Info</title>
+</head>
+<body>
+    <input type="text" id="searchInput" placeholder="Search by wallet name">
+    <div id="walletInfo"></div>
+
+    <script>
+        function getWalletInfo() {
+            const apiKey = 'your_api_key'; // Replace 'your_api_key' with your actual CryptoCompare API key
+            const apiUrl = 'https://min-api.cryptocompare.com/data/all/coinlist';
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Extract wallet information
+                    const coins = data.Data || {};
+                    const walletInfoContainer = document.getElementById('walletInfo');
+
+                    function displayWallet(wallet) {
+                        const name = wallet.FullName;
+                        const image = `https://www.cryptocompare.com${wallet.ImageUrl}`;
+                        // Create HTML elements to display wallet information
+                        const walletElement = document.createElement('div');
+                        walletElement.innerHTML = `
+                            <p>Wallet Name: ${name}</p>
+                            <img src="${image}" alt="${name} Wallet">
+                        `;
+                        walletInfoContainer.appendChild(walletElement);
+                    }
+
+                    function filterWallets(searchTerm) {
+                        walletInfoContainer.innerHTML = ''; // Clear previous results
+                        for (const coin in coins) {
+                            if (coins.hasOwnProperty(coin)) {
+                                const wallet = coins[coin];
+                                const fullName = wallet.FullName.toLowerCase();
+                                if (fullName.includes(searchTerm.toLowerCase())) {
+                                    displayWallet(wallet);
+                                }
+                            }
+                        }
+                    }
+
+                    // Call the function to display all wallets initially
+                    for (const coin in coins) {
+                        if (coins.hasOwnProperty(coin)) {
+                            displayWallet(coins[coin]);
+                        }
+                    }
+
+                    // Add event listener to search input
+                    const searchInput = document.getElementById('searchInput');
+                    searchInput.addEventListener('input', function () {
+                        const searchTerm = this.value.trim();
+                        filterWallets(searchTerm);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        // Call the function to retrieve wallet information
+        getWalletInfo();
+    </script>
+</body>
+</html>

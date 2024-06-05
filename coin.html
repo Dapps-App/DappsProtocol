@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallets</title>
+    <style>
+        /* CSS for grid layout */
+        #cryptoData {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust column width as needed */
+            gap: 20px; /* Adjust gap between items */
+        }
+
+        .cryptoItem {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .cryptoItem img {
+            width: 100px; /* Adjust image size */
+            height: 100px; /* Adjust image size */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crypto Market Data</h1>
+    <div id="cryptoData"></div>
+
+    <script>
+        // Function to fetch cryptocurrency data from CoinGecko API
+        async function fetchCryptoData() {
+            const apiUrl = 'https://api.coingecko.com/api/v3'; // Base URL for CoinGecko API
+            const endpoint = '/coins/markets'; // Endpoint to retrieve cryptocurrency market data
+            const currency = 'usd'; // Currency for pricing, you can change it to your preferred currency
+
+            try {
+                // Make a GET request to the CoinGecko API
+                const response = await fetch(`${apiUrl}${endpoint}?vs_currency=${currency}`);
+
+                // Check if the request was successful (status code 200)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data from CoinGecko API');
+                }
+
+                // Parse the JSON response
+                const data = await response.json();
+
+                // Display the cryptocurrency data in the HTML
+                displayCryptoData(data);
+            } catch (error) {
+                // Handle any errors that occur during the fetch operation
+                console.error('Error fetching data:', error.message);
+            }
+        }
+
+        // Function to display cryptocurrency data in the HTML
+        function displayCryptoData(data) {
+            const cryptoDataElement = document.getElementById('cryptoData');
+            // Clear previous data
+            cryptoDataElement.innerHTML = '';
+
+            // Loop through the data and create HTML elements to display it
+            data.forEach(crypto => {
+                const cryptoElement = document.createElement('div');
+                cryptoElement.classList.add('cryptoItem'); // Add class for styling
+                cryptoElement.innerHTML = `
+                    <img src="${crypto.image}" alt="${crypto.name}">
+                    <p>Name: ${crypto.name}</p>
+                    <p>Symbol: ${crypto.symbol.toUpperCase()}</p>
+                `;
+                cryptoDataElement.appendChild(cryptoElement);
+            });
+        }
+
+        // Call the fetchCryptoData function when the page loads
+        window.onload = fetchCryptoData;
+    </script>
+</body>
+</html>
